@@ -1,0 +1,8 @@
+% Parameters
+numberOfAgents = 100;
+
+
+% Initialization
+spatialData = LoadSpatialData();
+exitTargets = LoadExitTargets();
+[agentMap, agentList] = InitializeAgentPositions(spatialData.static
