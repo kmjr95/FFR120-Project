@@ -11,7 +11,7 @@ temp = ones(dim1,dim2) - staticObjectMap;
 indices = [row col];
 maxIdx = size(indices,1);
 
-if noOfAgents > maxIdx || groupSize*noOfGroups > noOfAgents
+if noOfAgents > maxIdx
     msg = 'Conflicting parameters';
     error(msg);
 end
