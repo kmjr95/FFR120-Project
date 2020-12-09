@@ -1,2 +1,2 @@
 targets = LoadExitTargets;
-targets.rooms.seven
+targets.main.north

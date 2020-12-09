@@ -3,7 +3,7 @@ function [agentMap, agentList] = InitializeAgentPositions(staticObjectMap,...
 
 dim1 = size(staticObjectMap,1);
 dim2 = size(staticObjectMap,2);
-agentMap = zeros(dim1,dim2);
+agentMap = zeros(dim1,dim2,2);
 
 % Find available positions
 temp = ones(dim1,dim2) - staticObjectMap;
@@ -21,7 +21,8 @@ agentList = [];
 for i = 1:noOfAgents
     idx = randi(maxIdx);
     pos = indices(idx,:);
-    agentMap(pos(1),pos(2)) = 1;
+    agentMap(pos(1),pos(2),1) = 1;
+    agentMap(pos(1),pos(2),2) = i;
     agentList = InitializeAgents(agentList,i,pos);
     indices(idx,:) = [];
     maxIdx = maxIdx - 1;

@@ -1,4 +1,9 @@
 function exitTargets = LoadExitTargets()
+% Example: To access location of exit for room one:
+% exitTargets.rooms.one
+% Example: To access southern mall exit:
+% exitTargets.main.south
+
 
 % Load bitmaps
 room1ex = imread('bitmaps/room1exit.bmp');
