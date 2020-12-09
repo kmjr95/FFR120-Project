@@ -1,6 +1,3 @@
-% Author: Kayed Mahra
-% Date: Dec 2020
-% Course: FFR120
 function [agentMap, agentList] = InitializeAgentPositions(staticObjectMap,...
     noOfAgents)
 
