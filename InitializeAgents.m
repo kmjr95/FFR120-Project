@@ -10,6 +10,6 @@ function agentList = InitializeAgents(agentList,agentNo,pos)
     agentList(agentNo).direction = dirs(1); % Random start direction
     agentList(agentNo).escapePlan = false;
     agentList(agentNo).escapeTarget = [NaN NaN]; % NaN NaN means no target
-    agentList(agentNo).groupId = NaN; % NaN = belongs to no group
+    agentList(agentNo).roomId = NaN; % NaN = belongs to no group
 end
 

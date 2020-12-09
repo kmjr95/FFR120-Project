@@ -2,7 +2,7 @@
 % Date: Dec 2020
 % Course: FFR120
 function [agentMap, agentList] = InitializeAgentPositions(staticObjectMap,...
-    noOfAgents, noOfGroups, groupSize)
+    noOfAgents)
 
 dim1 = size(staticObjectMap,1);
 dim2 = size(staticObjectMap,2);
@@ -28,17 +28,6 @@ for i = 1:noOfAgents
     agentList = InitializeAgents(agentList,i,pos);
     indices(idx,:) = [];
     maxIdx = maxIdx - 1;
-end
-
-idx = randperm(noOfAgents);
-% Assign group ids
-for i = 1:noOfGroups
-    
-    for j = 1:groupSize
-        agentId = idx(1);
-        idx(1) = [];
-        agentList(agentId).groupId = i;
-    end
 end
 
 end
