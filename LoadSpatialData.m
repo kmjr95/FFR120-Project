@@ -4,7 +4,7 @@ function spatialData = LoadSpatialData()
 
     spatialData.solidMap = imread('bitmaps/StaticObjectsMap.bmp');
     spatialData.exitMap = imread('bitmaps/ExitMap.bmp');
-    spatialData.impedanceMap = GenerateImpedance(solidMap);
+    spatialData.impedanceMap = GenerateImpedance(spatialData.solidMap);
     
 end
 
