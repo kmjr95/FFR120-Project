@@ -1,2 +1,2 @@
-targets = LoadExitTargets;
-targets.main.north
+a = [1 0 1 1];
+all(a(:))

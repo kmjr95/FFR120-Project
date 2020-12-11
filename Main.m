@@ -1,18 +1,18 @@
 clear all;
+%dbstop if naninf
 % Parameters
 distanceWeight = 50;
 repulsionWeight = 50;
 inertia = 1.1;
-noOfAgents = 300;
+noOfAgents = 2000;
 drawStateInterval = 100;
 panicParam = 0;
 
 % Initialization
-layers.solidMap = imread('bitmaps/StaticMap2.bmp');
-layers.exitMap = imread('bitmaps/ExitMap2.bmp');
+layers.solidMap = imread('bitmaps/StaticMap3.bmp');
+layers.exitMap = imread('bitmaps/ExitMap3.bmp');
 layers.impedanceMap = GenerateImpedance(layers.solidMap);
 [agentInfo, layers] = InitializeAgentPositions(layers,noOfAgents,layers.exitMap);
-
 
 % Metrics
 evacuating = noOfAgents;
@@ -21,7 +21,7 @@ dead = 0;
 hurt = 0;
 
 
-while evacuating > 0
+ while evacuating > 0
     % Rescue any agents on exits
     [nAgentInfo,resc,nLayers] = RescueAgents(agentInfo,layers);
     evacuating = evacuating - resc;
@@ -37,7 +37,7 @@ while evacuating > 0
     
     
     % Update movement of agents
-    for i = 1:size(agentInfo.agentList,2)
+    for i = 1:noOfAgents
         src = agentInfo.agentList(i).location;
         trg = agentInfo.agentList(i).escapeTarget;
         
@@ -52,8 +52,9 @@ while evacuating > 0
              agentInfo.agentIdx(src(1),src(2)) = 0;
              agentInfo.agentIdx(newSrc(1),newSrc(2)) = i;
         end
-        if ~mod(i,drawStateInterval)
-         DrawState(layers.solidMap + layers.agentMap.*2);
-        end
+        
     end
+  
+     DrawState(layers.solidMap + layers.agentMap.*2);
+
 end
