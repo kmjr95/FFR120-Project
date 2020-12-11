@@ -3,16 +3,16 @@ clear all;
 distanceWeight = 50;
 repulsionWeight = 50;
 inertia = 1.1;
-noOfAgents = 800;
+noOfAgents = 300;
 drawStateInterval = 100;
 panicParam = 0;
 
 % Initialization
 layers.solidMap = imread('bitmaps/StaticMap2.bmp');
-layers.exitMap = imread('bitmaps/ExitMap.bmp');
+layers.exitMap = imread('bitmaps/ExitMap2.bmp');
 layers.impedanceMap = GenerateImpedance(layers.solidMap);
 [agentInfo, layers] = InitializeAgentPositions(layers,noOfAgents,layers.exitMap);
-%DrawState(layers.solidMap  +  layers.agentMap.*2);
+
 
 % Metrics
 evacuating = noOfAgents;
