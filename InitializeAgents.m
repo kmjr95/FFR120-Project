@@ -1,17 +1,18 @@
-function agentList = InitializeAgents(agentList,agentNo,pos)
+function agentList = InitializeAgents(agentList,agentNo,pos,exitMap)
 %This function returns a struct corresponding to agent information
 %At initialization
 
-    dirs = mod(randi(4).*90,360);
 
-    agentList(agentNo).status = 1; % 1 alive, 2 hurt, 3 dead
-    agentList(agentNo).panicLevel = 0;
+    [row col] = find(exitMap);
+    exits = [row col];
+    noExits = size(exits,1);
+    
+    dirs = mod(randi(4).*90,360);
+    agentList(agentNo).status = 1; % 1 alive, 2 hurt, 3 dead, 4 rescued
     agentList(agentNo).location = pos;
     agentList(agentNo).direction = dirs(1); % Random start direction
-    agentList(agentNo).escapePlan = false;
-    agentList(agentNo).escapeTarget = [NaN NaN]; % NaN NaN means no target
-    agentList(agentNo).roomId = FindRoomId(pos); % Which room the agent is currently in
-    agentList(agentNo).enteredFrom = randi(4); % Which entrance was entered from
-    
+    % The random initial target is considered the entrance and most
+    % familiar exit for the exit
+    agentList(agentNo).escapeTarget = exits(randi(noExits),:);
 end
 

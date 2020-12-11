@@ -40,5 +40,6 @@ set(gca,'xtick', linspace(0.5,dim2+0.5,dim2+1), 'ytick', linspace(0.5,dim1+.5,di
 set(gca,'xgrid', 'on', 'ygrid', 'on', 'gridlinestyle', '-', 'xcolor', 'k', 'ycolor', 'k');
 set(gca,'YTickLabel',[]);
 set(gca,'XTickLabel',[]);
+drawnow;
 end
 
