@@ -1,7 +1,8 @@
 
-function DrawState(stateMap)
-dim1 = size(stateMap,1);
-dim2 = size(stateMap,2);
+function DrawState(layers,dim1,dim2)
+stateMap = layers.solidMap + (layers.agentMap-(layers.agentMap&layers.hurtMap)).*2 + layers.fireMap.*4 + ...
+        (layers.hurtMap&layers.agentMap).*3;
+
 rgb = zeros(dim1,dim2,3);
 
 % White (Unoccupied cells)
@@ -19,15 +20,15 @@ rgb(:,:,1) = rgb(:,:,1) + 0.*(stateMap == 2);
 rgb(:,:,2) = rgb(:,:,2) + 1.*(stateMap == 2);
 rgb(:,:,3) = rgb(:,:,3) + 0.*(stateMap == 2);
 
-% yellow (Agents hurt/inactive)
-rgb(:,:,1) = rgb(:,:,1) + 1.*(stateMap == 3);
-rgb(:,:,2) = rgb(:,:,2) + 1.*(stateMap == 3);
-rgb(:,:,3) = rgb(:,:,3) + 0.*(stateMap == 3);
+% blue (Agents hurt/inactive)
+rgb(:,:,1) = rgb(:,:,1) + 115/255.*(stateMap == 3);
+rgb(:,:,2) = rgb(:,:,2) + 186/255.*(stateMap == 3);
+rgb(:,:,3) = rgb(:,:,3) + 230/255.*(stateMap == 3);
 
 % Red (fire)
-rgb(:,:,1) = rgb(:,:,1) + 1.*(stateMap == 4);
-rgb(:,:,2) = rgb(:,:,2) + 0.*(stateMap == 4);
-rgb(:,:,3) = rgb(:,:,3) + 0.*(stateMap == 4);
+rgb(:,:,1) = rgb(:,:,1) + 235/255.*(stateMap == 4);
+rgb(:,:,2) = rgb(:,:,2) + 140/255.*(stateMap == 4);
+rgb(:,:,3) = rgb(:,:,3) + 52/255.*(stateMap == 4);
 
 
 imagesc(rgb)

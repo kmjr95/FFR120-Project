@@ -3,22 +3,23 @@ clear all;
 % Parameters
 distanceWeight = 50;
 repulsionWeight = 50;
-inertia = 1.1;
-noOfAgents = 200;
+noOfAgents = 500;
 drawStateInterval = 100;
-panicParam = 0;
 dim1 = 75;
 dim2 = 100;
 R = 1; % Fire radius
 timeStep = 1;
+panicThreshold = [0.0001 0.001];
+mode = 1; % 1 rational, 2 panic
 
 % Initialization
 layers.solidMap = imread('bitmaps/StaticMap3.bmp');
 layers.exitMap = imread('bitmaps/ExitMap3.bmp');
 layers.impedanceMap = GenerateImpedance(layers.solidMap);
-[Y, X] = ind2sub([75 100], randi(dim1*dim2));
+[Y, X] = ind2sub([dim1 dim2], randi(dim1*dim2));
 fireCenter = [Y X];
-layers.fireMap = zeros(75,100);
+layers.fireMap = zeros(dim1,dim2);
+layers.hurtMap = zeros(dim1,dim2);
 [agentInfo, layers] = InitializeAgentPositions(layers,noOfAgents,layers.exitMap);
 
 % Metrics
@@ -55,7 +56,11 @@ hurt = 0;
         trg = agentInfo.agentList(i).escapeTarget;
         
         % Risk of misstep/getting hurt
-        %%%%%%%%%%%%TO DO%%%%%%%%%%%%%%%%
+        if rand < panicThreshold(mode)
+            layers.hurtMap(src(1),src(2)) = 1;
+            agentInfo.agentList(i).status = 2;
+            hurt = hurt + 1;
+        end
         
         if agentInfo.agentList(i).status == 1
             [newLayers,newSrc] =  CalculateNextMovement(src,trg,layers,...
@@ -69,7 +74,7 @@ hurt = 0;
     end
      
    
-    fprintf('RESCUED: %i, EVACUATING: %i, DEAD: %i\n',rescued,evacuating,dead);
-    DrawState(layers.solidMap + layers.agentMap.*2 + layers.fireMap.*4);
+    fprintf('RESCUED: %i, EVACUATING: %i, DEAD: %i, HURT: %i\n',rescued,evacuating,dead,hurt);
+    DrawState(layers,dim1,dim2);
     timeStep = timeStep + 1;
 end
