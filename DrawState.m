@@ -24,15 +24,11 @@ rgb(:,:,1) = rgb(:,:,1) + 1.*(stateMap == 3);
 rgb(:,:,2) = rgb(:,:,2) + 1.*(stateMap == 3);
 rgb(:,:,3) = rgb(:,:,3) + 0.*(stateMap == 3);
 
-% Red (Agents dead)
+% Red (fire)
 rgb(:,:,1) = rgb(:,:,1) + 1.*(stateMap == 4);
 rgb(:,:,2) = rgb(:,:,2) + 0.*(stateMap == 4);
 rgb(:,:,3) = rgb(:,:,3) + 0.*(stateMap == 4);
 
-% gray hazard
-rgb(:,:,1) = rgb(:,:,1) + 166/255.*(stateMap == 5);
-rgb(:,:,2) = rgb(:,:,2) + 164/255.*(stateMap == 5);
-rgb(:,:,3) = rgb(:,:,3) + 157/254*(stateMap == 5);
 
 imagesc(rgb)
 pbaspect([dim2 dim1 1]);

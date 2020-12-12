@@ -4,14 +4,22 @@ clear all;
 distanceWeight = 50;
 repulsionWeight = 50;
 inertia = 1.1;
-noOfAgents = 2000;
+noOfAgents = 200;
 drawStateInterval = 100;
 panicParam = 0;
+dim1 = 75;
+dim2 = 100;
+R = 1; % Fire radius
+timeStep = 1;
 
 % Initialization
 layers.solidMap = imread('bitmaps/StaticMap3.bmp');
 layers.exitMap = imread('bitmaps/ExitMap3.bmp');
 layers.impedanceMap = GenerateImpedance(layers.solidMap);
+[Y, X] = ind2sub([75 100], randi(dim1*dim2));
+fireCenter = [Y X];
+[fireMap, R] = PropagateFire(fireCenter,dim1,dim2,R);
+layers.fireMap = fireMap;
 [agentInfo, layers] = InitializeAgentPositions(layers,noOfAgents,layers.exitMap);
 
 % Metrics
@@ -22,6 +30,7 @@ hurt = 0;
 
 
  while evacuating > 0
+     fprintf('RESCUED: %i, EVACUATING: %i, DEAD: %i\n',rescued,evacuating,dead);
     % Rescue any agents on exits
     [nAgentInfo,resc,nLayers] = RescueAgents(agentInfo,layers);
     evacuating = evacuating - resc;
@@ -29,8 +38,20 @@ hurt = 0;
     agentInfo = nAgentInfo;
     layers = nLayers;
     
-    % Check if any agents in fire
-    %%%%%%%%%%%%TO DO%%%%%%%%%%%%%%%%
+
+    if(mod(timeStep,3) == 0)
+    [fireMap, R] = PropagateFire(fireCenter,dim1,dim2,R);
+    layers.fireMap = fireMap;
+    end
+%     agentsInFire = layers.agentMap & layers.fireMap;
+%     evacuating = evacuating - sum(agentsInFire(:));
+%     dead = dead + sum(agentsInFire(:));
+%     layers.agentMap(agentsInFire) = 0;
+
+    
+  
+    
+
     
      % UPDATE AGENTS TARGETS IF REQUIRED
     %%%%%%%%%%%%TO DO%%%%%%%%%%%%%%%%
@@ -54,7 +75,9 @@ hurt = 0;
         end
         
     end
-  
-     DrawState(layers.solidMap + layers.agentMap.*2);
-
+     
+   
+    
+    DrawState(layers.solidMap + layers.agentMap.*2 + layers.fireMap.*4);
+    timeStep = timeStep + 1;
 end
