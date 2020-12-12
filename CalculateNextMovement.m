@@ -1,4 +1,4 @@
-function [layers, nSrc] = CalculateNextMovement(src,target,layers,wr,wd,inertia)
+function [layers, nSrc] = CalculateNextMovement(src,target,layers,wr,wd)
 
 directions = [-1 -1;... %NW
     0  -1;... %W
