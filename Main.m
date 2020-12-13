@@ -3,7 +3,7 @@ clear all;
 % Parameters
 distanceWeight = 50;
 repulsionWeight = 50;
-noOfAgents = 500;
+noOfAgents = 2000;
 drawStateInterval = 100;
 dim1 = 75;
 dim2 = 100;
@@ -17,6 +17,7 @@ visibility = 10;
 layers.solidMap = imread('bitmaps/StaticMap3.bmp');
 layers.exitMap = imread('bitmaps/ExitMap3.bmp');
 layers.impedanceMap = GenerateImpedance(layers.solidMap);
+exitTargets = GetExitTargets();
 [Y, X] = ind2sub([dim1 dim2], randi(dim1*dim2));
 fireCenter = [Y X];
 layers.fireMap = zeros(dim1,dim2);
@@ -47,15 +48,11 @@ hurt = 0;
         dead = dead + D;
     end
 
-     % UPDATE AGENTS TARGETS IF REQUIRED
-    %%%%%%%%%%%%TO DO%%%%%%%%%%%%%%%%
-    
-    
     % Update movement of agents
     for i = 1:noOfAgents
         src = agentInfo.agentList(i).location;
         trg = agentInfo.agentList(i).escapeTarget;
-        trg = UpdateTarget(src,trg,visibility,layers.fireMap,layers.exitMap);
+        trg = UpdateTarget(src,trg,visibility,layers.fireMap,exitTargets,dim1,dim2);      
         agentInfo.agentList(i).escapeTarget = trg;
         
         % Risk of misstep/getting hurt
@@ -73,7 +70,6 @@ hurt = 0;
              agentInfo.agentIdx(src(1),src(2)) = 0;
              agentInfo.agentIdx(newSrc(1),newSrc(2)) = i;
         end
-        
     end
      
    

@@ -3,7 +3,7 @@ function agentList = InitializeAgents(agentList,agentNo,pos,exitMap)
 %At initialization
 
 
-    [row col] = find(exitMap);
+    [row, col] = find(exitMap);
     exits = [row col];
     noExits = size(exits,1);
     

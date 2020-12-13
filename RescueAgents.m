@@ -17,7 +17,8 @@ if rescued > 0
         agentIndex = agentInfo.agentIdx(r,c);
         agentInfo.agentList(agentIndex).status = 4;
         agentInfo.agentIdx(r,c) = 0;
-        layers.agentMap(r,c) = 0;       
+        layers.agentMap(r,c) = 0;
+        layers.hurtMap(r,c) = 0;
     end
 end
 
