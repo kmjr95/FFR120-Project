@@ -1,8 +1,7 @@
 clear all;
-
-
-for simulation = 1:10
-
+numberOfRuns = 1e4;
+cellData = cell(1,5,numberOfRuns);
+for n = 1:numberOfRuns
 %dbstop if naninf
 % Parameters
 distanceWeight = 50;
@@ -98,7 +97,7 @@ healedTotal = 0;
      
    
     fprintf('RESCUED: %i, EVACUATING: %i, DEAD: %i, HURT: %i, HEALED: %i\n',rescued,evacuating,dead,hurt,healed);
-    DrawState(layers,dim1,dim2);
+    % DrawState(layers,dim1,dim2);
     timeStep = timeStep + 1;
     
     evacTotal(end+1) = evacuating;
@@ -108,7 +107,11 @@ healedTotal = 0;
     healedTotal(end+1) = healed;
  end
  
-end
-
-
+ cellData{1,1,n} = evacTotal;
+ cellData{1,2,n} = rescuedTotal;
+ cellData{1,3,n} = deadTotal;
+ cellData{1,4,n} = hurtTotal;
+ cellData{1,5,n} = healedTotal;
  
+end
+save('cellData.mat','cellData')
