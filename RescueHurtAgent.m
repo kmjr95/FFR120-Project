@@ -1,5 +1,5 @@
-function [agentInfo,layers] = RescueHurtAgent(src,trg,agentId,visibility,...
-    agentInfo,layers,dim1,dim2)
+function [agentInfo,layers,healed] = RescueHurtAgent(src,trg,agentId,visibility,...
+    agentInfo,layers,dim1,dim2,healed)
 
 % Healthy agent position
 r = src(1);
@@ -65,16 +65,24 @@ else %going for a hurt agent
     % If next to hurt agent:
   if Heuristic(src,trg) == 1 && agentInfo.agentList(agentId).targetType == 1  
       hurtAgentIdx = agentInfo.agentIdx(trg(1),trg(2));
-      newTarget = agentInfo.agentList(hurtAgentIdx).escapeTarget;
-      % set own escapeTarget to same as hurt agent
-      agentInfo.agentList(agentId).escapeTarget = newTarget;
-      % set own target type to 0
-      agentInfo.agentList(agentId).targetType = 0;
-      % set hurt agent status to 1
-      agentInfo.agentList(hurtAgentIdx).status = 1;
-      % set position in hurtmap to 0  
-      layers.hurtMap(trg(1),trg(2)) = 0; 
-      disp('hello');
+      if hurtAgentIdx == 0
+          exit = [1 48];
+          % set own target type to 0
+          agentInfo.agentList(agentId).targetType = 0;
+          agentInfo.agentList(agentId).escapeTarget = exit;
+      else
+          
+          newTarget = agentInfo.agentList(hurtAgentIdx).escapeTarget;
+          % set own escapeTarget to same as hurt agent
+          agentInfo.agentList(agentId).escapeTarget = newTarget;
+          % set own target type to 0
+          agentInfo.agentList(agentId).targetType = 0;
+          % set hurt agent status to 1
+          agentInfo.agentList(hurtAgentIdx).status = 1;
+          % set position in hurtmap to 0  
+          layers.hurtMap(trg(1),trg(2)) = 0;
+          healed = healed + 1;
+      end
   end
 end
 

@@ -1,4 +1,8 @@
 clear all;
+
+
+for simulation = 1:10
+
 %dbstop if naninf
 % Parameters
 distanceWeight = 50;
@@ -9,7 +13,7 @@ dim2 = 100;
 R = 1; % Fire radius
 timeStep = 1;
 panicThreshold = [0.0001 0.001];
-mode = 2; % 1 rational, 2 panic
+mode = 1; % 1 rational, 2 panic
 visibility = 10;
 
 % Initialization
@@ -28,8 +32,14 @@ evacuating = noOfAgents;
 rescued = 0;
 dead = 0;
 hurt = 0;
+healed = 0;
 
-
+%
+evacTotal = noOfAgents;
+rescuedTotal = 0;
+deadTotal = 0;
+hurtTotal = 0;
+healedTotal = 0;
  while evacuating > 0
     
     % Rescue any agents on exits
@@ -66,13 +76,17 @@ hurt = 0;
             layers.hurtMap(src(1),src(2)) = 1;
             agentInfo.agentList(i).status = 2;
             hurt = hurt + 1;
+            if mode == 2
+                dead = dead + 1;
+            end
         end
         
         if agentInfo.agentList(i).status == 1
-             % Check for hurts agents to rescue
-            [agentInfo,layers] = RescueHurtAgent(src,trg,i,visibility,...
-            agentInfo,layers,dim1,dim2);
-
+             % Check for hurts agents to rescue if mode is altruistic
+             if mode == 1
+                [agentInfo,layers,healed] = RescueHurtAgent(src,trg,i,visibility,...
+                agentInfo,layers,dim1,dim2,healed);
+             end
             [newLayers,newSrc] =  CalculateNextMovement(src,trg,layers,...
                  repulsionWeight,distanceWeight);
              layers = newLayers;
@@ -83,7 +97,18 @@ hurt = 0;
     end
      
    
-    %fprintf('RESCUED: %i, EVACUATING: %i, DEAD: %i, HURT: %i\n',rescued,evacuating,dead,hurt);
+    fprintf('RESCUED: %i, EVACUATING: %i, DEAD: %i, HURT: %i, HEALED: %i\n',rescued,evacuating,dead,hurt,healed);
     DrawState(layers,dim1,dim2);
     timeStep = timeStep + 1;
+    
+    evacTotal(end+1) = evacuating;
+    rescuedTotal(end+1) = rescued;
+    deadTotal(end+1) = dead;
+    hurtTotal(end+1) = hurt;
+    healedTotal(end+1) = healed;
+ end
+ 
 end
+
+
+ 
