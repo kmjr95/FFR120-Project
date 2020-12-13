@@ -21,51 +21,53 @@ if agentInfo.agentList(ID).targetType == 0
         leftHurt = distanceVector .* leftHurt;
         distance = find(leftHurt);
         distance = distance(1); % take the nearest one in the direction
-        target = [r c-distance];
-        hurtID = agentInfo.agentIdx(target);
+        trg = [r c-distance];
+        hurtID = agentInfo.agentIdx(trg(1),trg(2));
         agentInfo.agentList(ID).targetType = hurtID;
-        agentInfo.agentList(ID).escapeTarget = target;
-        hurtMap(target) = 0;
+        agentInfo.agentList(ID).escapeTarget = trg;
+        hurtMap(trg(1),trg(2)) = 0;
         
     elseif sum(downHurt) > 0
         distanceVector = (1:length(downHurt));
         downHurt = distanceVector .* downHurt;
         distance = find(downHurt);
         distance = distance(1); % take the nearest one in the direction
-        target = [r c-distance];
-        hurtID = agentInfo.agentIdx(target);
+        trg = [r+distance c];
+        hurtID = agentInfo.agentIdx(trg(1),trg(2));
         agentInfo.agentList(ID).targetType = hurtID;
-        agentInfo.agentList(ID).escapeTarget = target;
-        hurtMap(target) = 0;
+        agentInfo.agentList(ID).escapeTarget = trg;
+        hurtMap(trg(1),trg(2)) = 0;
         
     elseif sum(rightHurt) > 0
         distanceVector = (1:length(rightHurt));
         rightHurt = distanceVector .* rightHurt;
         distance = find(rightHurt);
         distance = distance(1); % take the nearest one in the direction
-        target = [r c-distance];
-        hurtID = agentInfo.agentIdx(target);
+        trg = [r c+distance];
+        hurtID = agentInfo.agentIdx(trg(1),trg(2));
         agentInfo.agentList(ID).targetType = hurtID;
-        agentInfo.agentList(ID).escapeTarget = target;
-        hurtMap(target) = 0;
+        agentInfo.agentList(ID).escapeTarget = trg;
+        hurtMap(trg(1),trg(2)) = 0;
         
     elseif sum(upHurt) > 0
         distanceVector = (1:length(upHurt));
         upHurt = distanceVector .* upHurt;
         distance = find(upHurt);
         distance = distance(1); % take the nearest one in the direction
-        target = [r c-distance];
-        hurtID = agentInfo.agentIdx(target);
+        trg = [r-distance c];
+        hurtID = agentInfo.agentIdx(trg(1),trg(2));
         agentInfo.agentList(ID).targetType = hurtID;
-        agentInfo.agentList(ID).escapeTarget = target;
-        hurtMap(target) = 0;
+        agentInfo.agentList(ID).escapeTarget = trg;
+        hurtMap(trg(1),trg(2)) = 0;
     
     end
     
 else
-    if Heuristic(agentPos,agentTarget) == 1 && agentInfo.agentList(ID).targetType > 0
-        hurtID = agentInfo.agentIdx(agentTarget);
-        agentInfo.agentList(hurtID) = 1;
+    dist = Heuristic(agentPos,agentTarget);
+    targetType = agentInfo.agentList(ID).targetType;
+    if ( dist == 1) && ( targetType > 0)
+        hurtID = agentInfo.agentIdx(agentTarget(1),agentTarget(2));
+        agentInfo.agentList(hurtID).status = 1;
         newTarget = agentInfo.agentList(hurtID).escapeTarget;
         agentInfo.agentList(ID).escapeTarget = newTarget;
     end

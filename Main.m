@@ -3,14 +3,14 @@ clear all;
 % Parameters
 distanceWeight = 50;
 repulsionWeight = 50;
-noOfAgents = 2000;
+noOfAgents = 1000;
 drawStateInterval = 100;
 dim1 = 75;
 dim2 = 100;
 R = 1; % Fire radius
 timeStep = 1;
 panicThreshold = [0.0001 0.001];
-mode = 1; % 1 rational, 2 panic
+mode = 2; % 1 rational, 2 panic
 visibility = 10;
 
 % Initialization
@@ -53,9 +53,10 @@ hurt = 0;
         src = agentInfo.agentList(i).location;
         
         % Here we rescue agent
-        [layers.hurtMap, agentInfo] = RescueHurtAgent(i, src, agentInfo,...
-            layers.hurtMap, visibility, dim1, dim2);
-        
+        if agentInfo.agentList(i).status == 1
+            [layers.hurtMap, agentInfo] = RescueHurtAgent(i, src, agentInfo,...
+                layers.hurtMap, visibility, dim1, dim2);
+        end
         trg = agentInfo.agentList(i).escapeTarget;
         trg = UpdateTarget(src,trg,visibility,layers.fireMap,exitTargets,dim1,dim2);      
         agentInfo.agentList(i).escapeTarget = trg;

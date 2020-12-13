@@ -13,6 +13,7 @@ R = R + 1;
 % Check for agents in fire
 agentsInFire = layers.fireMap & layers.agentMap;
 layers.agentMap(agentsInFire) = 0;
+layers.hurtMap(agentsInFire) = 0;
 agentsInFireIdx = agentInfo.agentIdx(agentsInFire);
 if ~isempty(agentsInFireIdx)
     D = numel(agentsInFireIdx);
