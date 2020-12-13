@@ -6,16 +6,10 @@ r = src(1); % row
 c = src(2); % col
 
 % Visibility vectors
-leftFire = fireMap(r,max(2,c-visibility):c-1);
-rightFire = fireMap(r,c+1:min(dim2-1,c+visibility));
-upFire = fireMap(max(2,r-visibility):r-1,c);
-downFire = fireMap(r+1:min(dim1-1,r+visibility),c);
-
-% Find hazards
-leftHazard = leftFire & ones(1,length(leftFire));
-rightHazard = rightFire & ones(1,length(rightFire));
-upHazard = upFire & ones(length(upFire),1);
-downHazard = downFire & ones(length(downFire),1);
+leftHazard = fireMap(r,max(2,c-visibility):c-1);
+rightHazard = fireMap(r,c+1:min(dim2-1,c+visibility));
+upHazard = fireMap(max(2,r-visibility):r-1,c);
+downHazard = fireMap(r+1:min(dim1-1,r+visibility),c);
 
 
 if any(leftHazard,2)
