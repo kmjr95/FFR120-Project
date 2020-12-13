@@ -51,6 +51,11 @@ hurt = 0;
     % Update movement of agents
     for i = 1:noOfAgents
         src = agentInfo.agentList(i).location;
+        
+        % Here we rescue agent
+        [layers.hurtMap, agentInfo] = RescueHurtAgent(i, src, agentInfo,...
+            layers.hurtMap, visibility, dim1, dim2);
+        
         trg = agentInfo.agentList(i).escapeTarget;
         trg = UpdateTarget(src,trg,visibility,layers.fireMap,exitTargets,dim1,dim2);      
         agentInfo.agentList(i).escapeTarget = trg;
