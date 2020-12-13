@@ -11,6 +11,7 @@ R = 1; % Fire radius
 timeStep = 1;
 panicThreshold = [0.0001 0.001];
 mode = 1; % 1 rational, 2 panic
+visibility = 10;
 
 % Initialization
 layers.solidMap = imread('bitmaps/StaticMap3.bmp');
@@ -54,6 +55,8 @@ hurt = 0;
     for i = 1:noOfAgents
         src = agentInfo.agentList(i).location;
         trg = agentInfo.agentList(i).escapeTarget;
+        trg = UpdateTarget(src,trg,visibility,layers.fireMap,layers.exitMap);
+        agentInfo.agentList(i).escapeTarget = trg;
         
         % Risk of misstep/getting hurt
         if rand < panicThreshold(mode)
