@@ -3,8 +3,7 @@ clear all;
 % Parameters
 distanceWeight = 50;
 repulsionWeight = 50;
-noOfAgents = 1000;
-drawStateInterval = 100;
+noOfAgents = 572;
 dim1 = 75;
 dim2 = 100;
 R = 1; % Fire radius
@@ -42,24 +41,25 @@ hurt = 0;
     
 
     % Propagate fire
-    if(mod(timeStep,3) == 0)
+    if(mod(timeStep,2) == 0)
         [layers,agentInfo,R,D] = PropagateFire(layers,agentInfo,fireCenter,dim1,dim2,R);
         evacuating = evacuating - D;
         dead = dead + D;
     end
+    
 
     % Update movement of agents
     for i = 1:noOfAgents
         src = agentInfo.agentList(i).location;
-        
-        % Here we rescue agent
-        if agentInfo.agentList(i).status == 1
-            [layers.hurtMap, agentInfo] = RescueHurtAgent(i, src, agentInfo,...
-                layers.hurtMap, visibility, dim1, dim2);
-        end
         trg = agentInfo.agentList(i).escapeTarget;
-        trg = UpdateTarget(src,trg,visibility,layers.fireMap,exitTargets,dim1,dim2);      
+        
+       
+        % Check for fire and update target
+        [trg,sawFire] = UpdateTarget(src,trg,visibility,layers.fireMap,exitTargets,dim1,dim2);      
         agentInfo.agentList(i).escapeTarget = trg;
+        if sawFire
+            agentInfo.agentList(i).targetType = 0;
+        end
         
         % Risk of misstep/getting hurt
         if rand < panicThreshold(mode)
@@ -69,6 +69,10 @@ hurt = 0;
         end
         
         if agentInfo.agentList(i).status == 1
+             % Check for hurts agents to rescue
+            [agentInfo,layers] = RescueHurtAgent(src,trg,i,visibility,...
+            agentInfo,layers,dim1,dim2);
+
             [newLayers,newSrc] =  CalculateNextMovement(src,trg,layers,...
                  repulsionWeight,distanceWeight);
              layers = newLayers;
@@ -79,7 +83,7 @@ hurt = 0;
     end
      
    
-    fprintf('RESCUED: %i, EVACUATING: %i, DEAD: %i, HURT: %i\n',rescued,evacuating,dead,hurt);
+    %fprintf('RESCUED: %i, EVACUATING: %i, DEAD: %i, HURT: %i\n',rescued,evacuating,dead,hurt);
     DrawState(layers,dim1,dim2);
     timeStep = timeStep + 1;
 end

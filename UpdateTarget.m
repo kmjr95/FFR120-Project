@@ -1,6 +1,6 @@
-function newTarget = UpdateTarget(src,trg,visibility,fireMap,exitTargets,...
+function [newTarget,sawFire] = UpdateTarget(src,trg,visibility,fireMap,exitTargets,...
     dim1,dim2)
-
+sawFire = 1;
 % Agent pos
 r = src(1); % row
 c = src(2); % col
@@ -22,6 +22,7 @@ elseif any(downHazard,1)
     newTarget = exitTargets.top(randi(size(exitTargets.top,1)),:); 
 else
     newTarget = trg;
+    sawFire = 0;
 end
 
 end

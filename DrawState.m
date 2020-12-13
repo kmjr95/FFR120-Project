@@ -21,9 +21,9 @@ rgb(:,:,2) = rgb(:,:,2) + 1.*(stateMap == 2);
 rgb(:,:,3) = rgb(:,:,3) + 0.*(stateMap == 2);
 
 % blue (Agents hurt/inactive)
-rgb(:,:,1) = rgb(:,:,1) + 47/255.*(stateMap == 3);
-rgb(:,:,2) = rgb(:,:,2) + 0/255.*(stateMap == 3);
-rgb(:,:,3) = rgb(:,:,3) + 255/255.*(stateMap == 3);
+rgb(:,:,1) = rgb(:,:,1) + 115/255.*(stateMap == 3);
+rgb(:,:,2) = rgb(:,:,2) + 186/255.*(stateMap == 3);
+rgb(:,:,3) = rgb(:,:,3) + 230/255.*(stateMap == 3);
 
 % Red (fire)
 rgb(:,:,1) = rgb(:,:,1) + 235/255.*(stateMap == 4);

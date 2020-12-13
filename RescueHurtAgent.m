@@ -1,74 +1,82 @@
-function [hurtMap, agentInfo] = RescueHurtAgent(ID, agentPos,...
-    agentInfo, hurtMap, visibility, dim1, dim2)
+function [agentInfo,layers] = RescueHurtAgent(src,trg,agentId,visibility,...
+    agentInfo,layers,dim1,dim2)
 
-% Agent pos
-r = agentPos(1); % row
-c = agentPos(2); % col
-
-agentTarget = agentInfo.agentList(ID).escapeTarget;
+% Healthy agent position
+r = src(1);
+c = src(2);
 visibility = visibility*2;
+% Check if this agent is going for exit or a hurt target
+if agentInfo.agentList(agentId).targetType == 0 % Going for exit
+    % Check if there are hurt agents
+    % Visibility vectors
+    leftHurt = layers.hurtMap(r,max(2,c-visibility):c-1);
+    rightHurt = layers.hurtMap(r,c+1:min(dim2-1,c+visibility));
+    upHurt = layers.hurtMap(max(2,r-visibility):r-1,c)';
+    downHurt = layers.hurtMap(r+1:min(dim1-1,r+visibility),c)';
+    
+    % if closest hurt agent status is (3)
+    % Set own target type to 1
+    % Set status of hurt agent as being rescued  (5)
+    
+    if any(leftHurt,2)
+        dist = find(flip(leftHurt),1,'first'); % distance to target
+        idxOfHurtAgent = agentInfo.agentIdx(r,c-dist);
+        
+        if agentInfo.agentList(idxOfHurtAgent).status ~= 5
+            agentInfo.agentList(idxOfHurtAgent).status = 5;
+            agentInfo.agentList(agentId).escapeTarget = [r,c-dist];
+            agentInfo.agentList(agentId).targetType = 1;
+        end
+        
+    elseif any(rightHurt,2)
+        dist = find(rightHurt,1,'first');
+        idxOfHurtAgent = agentInfo.agentIdx(r,c+dist);
+        
+       if agentInfo.agentList(idxOfHurtAgent).status ~= 5
+            agentInfo.agentList(idxOfHurtAgent).status = 5;
+            agentInfo.agentList(agentId).escapeTarget = [r,c+dist];
+            agentInfo.agentList(agentId).targetType = 1;
+        end
 
-if agentInfo.agentList(ID).targetType == 0
-    
-    % Visibility Vectors
-    leftHurt = hurtMap(r,max(2,c-visibility):c-1);
-    rightHurt = hurtMap(r,c+1:min(dim2-1,c+visibility));
-    upHurt = hurtMap(max(2,r-visibility):r-1,c);
-    downHurt = hurtMap(r+1:min(dim1-1,r+visibility),c);
-    
-    if sum(leftHurt) > 0
-        distanceVector = (1:length(leftHurt));
-        leftHurt = distanceVector .* leftHurt;
-        distance = find(leftHurt);
-        distance = distance(1); % take the nearest one in the direction
-        trg = [r c-distance];
-        hurtID = agentInfo.agentIdx(trg(1),trg(2));
-        agentInfo.agentList(ID).targetType = hurtID;
-        agentInfo.agentList(ID).escapeTarget = trg;
-        hurtMap(trg(1),trg(2)) = 0;
+    elseif any(upHurt,1)
+        dist = find(flip(upHurt),1,'first');
+        idxOfHurtAgent = agentInfo.agentIdx(r-dist,c);
         
-    elseif sum(downHurt) > 0
-        distanceVector = (1:length(downHurt));
-        downHurt = distanceVector .* downHurt;
-        distance = find(downHurt);
-        distance = distance(1); % take the nearest one in the direction
-        trg = [r+distance c];
-        hurtID = agentInfo.agentIdx(trg(1),trg(2));
-        agentInfo.agentList(ID).targetType = hurtID;
-        agentInfo.agentList(ID).escapeTarget = trg;
-        hurtMap(trg(1),trg(2)) = 0;
+        if agentInfo.agentList(idxOfHurtAgent).status ~= 5
+            agentInfo.agentList(idxOfHurtAgent).status = 5;
+            agentInfo.agentList(agentId).escapeTarget = [r-dist,c];
+            agentInfo.agentList(agentId).targetType = 1;
+        end
+
+    elseif any(downHurt,1)
+        dist = find(downHurt,1,'first');
+        idxOfHurtAgent = agentInfo.agentIdx(r+dist,c);
         
-    elseif sum(rightHurt) > 0
-        distanceVector = (1:length(rightHurt));
-        rightHurt = distanceVector .* rightHurt;
-        distance = find(rightHurt);
-        distance = distance(1); % take the nearest one in the direction
-        trg = [r c+distance];
-        hurtID = agentInfo.agentIdx(trg(1),trg(2));
-        agentInfo.agentList(ID).targetType = hurtID;
-        agentInfo.agentList(ID).escapeTarget = trg;
-        hurtMap(trg(1),trg(2)) = 0;
+        if agentInfo.agentList(idxOfHurtAgent).status ~= 5
+            agentInfo.agentList(idxOfHurtAgent).status = 5;
+            agentInfo.agentList(agentId).escapeTarget = [r+dist,c];
+            agentInfo.agentList(agentId).targetType = 1;
+        end
         
-    elseif sum(upHurt) > 0
-        distanceVector = (1:length(upHurt));
-        upHurt = distanceVector .* upHurt;
-        distance = find(upHurt);
-        distance = distance(1); % take the nearest one in the direction
-        trg = [r-distance c];
-        hurtID = agentInfo.agentIdx(trg(1),trg(2));
-        agentInfo.agentList(ID).targetType = hurtID;
-        agentInfo.agentList(ID).escapeTarget = trg;
-        hurtMap(trg(1),trg(2)) = 0;
-    
-    end
-    
-else
-    dist = Heuristic(agentPos,agentTarget);
-    targetType = agentInfo.agentList(ID).targetType;
-    if ( dist == 1) && ( targetType > 0)
-        hurtID = agentInfo.agentIdx(agentTarget(1),agentTarget(2));
-        agentInfo.agentList(hurtID).status = 1;
-        newTarget = agentInfo.agentList(hurtID).escapeTarget;
-        agentInfo.agentList(ID).escapeTarget = newTarget;
-    end
+    else
+        return;
+    end 
+else %going for a hurt agent
+    % If next to hurt agent:
+  if Heuristic(src,trg) == 1 && agentInfo.agentList(agentId).targetType == 1  
+      hurtAgentIdx = agentInfo.agentIdx(trg(1),trg(2));
+      newTarget = agentInfo.agentList(hurtAgentIdx).escapeTarget;
+      % set own escapeTarget to same as hurt agent
+      agentInfo.agentList(agentId).escapeTarget = newTarget;
+      % set own target type to 0
+      agentInfo.agentList(agentId).targetType = 0;
+      % set hurt agent status to 1
+      agentInfo.agentList(hurtAgentIdx).status = 1;
+      % set position in hurtmap to 0  
+      layers.hurtMap(trg(1),trg(2)) = 0; 
+      disp('hello');
+  end
 end
+
+end
+
