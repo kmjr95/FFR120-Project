@@ -1,17 +1,18 @@
 clear all;
-numberOfRuns = 1e4;
+numberOfRuns = 100;
 cellData = cell(1,5,numberOfRuns);
 for n = 1:numberOfRuns
+disp(n);
 %dbstop if naninf
 % Parameters
 distanceWeight = 50;
 repulsionWeight = 50;
-noOfAgents = 572;
+noOfAgents = 1000;
 dim1 = 75;
 dim2 = 100;
 R = 1; % Fire radius
 timeStep = 1;
-panicThreshold = [0.0001 0.001];
+panicThreshold = [0.001 0.005];
 mode = 1; % 1 rational, 2 panic
 visibility = 10;
 
@@ -71,13 +72,10 @@ healedTotal = 0;
         end
         
         % Risk of misstep/getting hurt
-        if rand < panicThreshold(mode)
+        if rand < panicThreshold(mode) && agentInfo.agentList(i).status ~= 2
             layers.hurtMap(src(1),src(2)) = 1;
             agentInfo.agentList(i).status = 2;
             hurt = hurt + 1;
-            if mode == 2
-                dead = dead + 1;
-            end
         end
         
         if agentInfo.agentList(i).status == 1
@@ -96,7 +94,7 @@ healedTotal = 0;
     end
      
    
-    fprintf('RESCUED: %i, EVACUATING: %i, DEAD: %i, HURT: %i, HEALED: %i\n',rescued,evacuating,dead,hurt,healed);
+    %fprintf('RESCUED: %i, EVACUATING: %i, DEAD: %i, HURT: %i, HEALED: %i\n',rescued,evacuating,dead,hurt,healed);
     % DrawState(layers,dim1,dim2);
     timeStep = timeStep + 1;
     

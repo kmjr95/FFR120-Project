@@ -1,0 +1,125 @@
+Batch 1:
+distanceWeight = 50;
+repulsionWeight = 50;
+noOfAgents = 572;
+panicThreshold = [0.001 0.001];
+mode = 2; % 1 rational, 2 panic
+visibility = 10;
+---------------------------------
+Batch 2:
+distanceWeight = 50;
+repulsionWeight = 50;
+noOfAgents = 572;
+panicThreshold = [0.001 0.005];
+mode = 2; % 1 rational, 2 panic
+visibility = 10;
+---------------------------------
+Batch 3:
+distanceWeight = 50;
+repulsionWeight = 50;
+noOfAgents = 572;
+panicThreshold = [0.001 0.005];
+mode = 1; % 1 rational, 2 panic
+visibility = 10;
+---------------------------------
+---------------------------------
+Batch 4:
+distanceWeight = 50;
+repulsionWeight = 50;
+noOfAgents = 572;
+panicThreshold = [0.001 0.001];
+mode = 2; % 1 rational, 2 panic
+visibility = 5;
+---------------------------------
+Batch 5:
+distanceWeight = 50;
+repulsionWeight = 50;
+noOfAgents = 572;
+panicThreshold = [0.001 0.005];
+mode = 2; % 1 rational, 2 panic
+visibility = 5;
+---------------------------------
+Batch 6:
+distanceWeight = 50;
+repulsionWeight = 50;
+noOfAgents = 572;
+panicThreshold = [0.001 0.005];
+mode = 1; % 1 rational, 2 panic
+visibility = 5;
+---------------------------------
+---------------------------------
+Batch 7:
+distanceWeight = 50;
+repulsionWeight = 50;
+noOfAgents = 572;
+panicThreshold = [0.001 0.001];
+mode = 2; % 1 rational, 2 panic
+visibility = 15;
+---------------------------------
+Batch 8:
+distanceWeight = 50;
+repulsionWeight = 50;
+noOfAgents = 572;
+panicThreshold = [0.001 0.005];
+mode = 2; % 1 rational, 2 panic
+visibility = 15;
+---------------------------------
+Batch 9:
+distanceWeight = 50;
+repulsionWeight = 50;
+noOfAgents = 572;
+panicThreshold = [0.001 0.005];
+mode = 1; % 1 rational, 2 panic
+visibility = 15;
+---------------------------------
+---------------------------------
+Batch 10:
+distanceWeight = 50;
+repulsionWeight = 50;
+noOfAgents = 1000;
+panicThreshold = [0.001 0.001];
+mode = 2; % 1 rational, 2 panic
+visibility = 10;
+---------------------------------
+Batch 11:
+distanceWeight = 50;
+repulsionWeight = 50;
+noOfAgents = 1000;
+panicThreshold = [0.001 0.005];
+mode = 2; % 1 rational, 2 panic
+visibility = 10;
+---------------------------------
+Batch 12:
+distanceWeight = 50;
+repulsionWeight = 50;
+noOfAgents = 1000;
+panicThreshold = [0.001 0.005];
+mode = 1; % 1 rational, 2 panic
+visibility = 10;
+---------------------------------
+---------------------------------
+Batch 13:
+distanceWeight = 50;
+repulsionWeight = 50;
+noOfAgents = 750;
+panicThreshold = [0.001 0.001];
+mode = 2; % 1 rational, 2 panic
+visibility = 10;
+---------------------------------
+Batch 14:
+distanceWeight = 50;
+repulsionWeight = 50;
+noOfAgents = 750;
+panicThreshold = [0.001 0.005];
+mode = 2; % 1 rational, 2 panic
+visibility = 10;
+---------------------------------
+Batch 15:
+distanceWeight = 50;
+repulsionWeight = 50;
+noOfAgents = 750;
+panicThreshold = [0.001 0.005];
+mode = 1; % 1 rational, 2 panic
+visibility = 10;
+---------------------------------
+---------------------------------
