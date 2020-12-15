@@ -10,7 +10,7 @@ PlotSimulation(cellData,2,0.005,10) % Change mode, panic level and visibility
                               % Consult Paramters.txt
 %%
 load('Batch3.mat');
-PlotSimulation(cellData,1,0.005,10) % Change mode, panic level and visibility
+PlotSimulation(cellData,1,0.001,10) % Change mode, panic level and visibility
                               % Consult Paramters.txt
 % ------------------------------------------------------------------------
 %%                              
@@ -23,7 +23,7 @@ PlotSimulation(cellData,2,0.005,5) % Change mode, panic level and visibility
                               % Consult Paramters.txt
 %%
 load('Batch6.mat');
-PlotSimulation(cellData,1,0.005,5) % Change mode, panic level and visibility
+PlotSimulation(cellData,1,0.001,5) % Change mode, panic level and visibility
                               % Consult Paramters.txt
 
 % ------------------------------------------------------------------------
@@ -37,7 +37,7 @@ PlotSimulation(cellData,2,0.005,15) % Change mode, panic level and visibility
                               % Consult Paramters.txt
 %%
 load('Batch9.mat');
-PlotSimulation(cellData,2,0.001,15) % Change mode, panic level and visibility
+PlotSimulation(cellData,1,0.001,15) % Change mode, panic level and visibility
                               % Consult Paramters.txt
 
 % ------------------------------------------------------------------------
@@ -50,7 +50,7 @@ PlotSimulation(cellData,2,0.005,10) % Number of agents = 1000
 
 %%
 load('Batch12.mat');
-PlotSimulation(cellData,1,0.005,10) % Number of agents = 1000
+PlotSimulation(cellData,1,0.001,10) % Number of agents = 1000
  
 % ------------------------------------------------------------------------
 %%                              
@@ -63,4 +63,4 @@ PlotSimulation(cellData,2,0.005,10) % Number of agents = 750
 
 %%                             
 load('Batch15.mat');
-PlotSimulation(cellData,1,0.005,10) % Number of agents = 750
+PlotSimulation(cellData,1,0.001,10) % Number of agents = 750
